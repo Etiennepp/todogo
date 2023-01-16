@@ -10,10 +10,13 @@ import { API_URL } from "../../config";
 import { useSelector, useDispatch } from "react-redux";
 import { getCollections } from "../../actions/collectionsActions";
 import Editor from "../../components/Editor/Editor";
+import CreateCollectionModal from "../../components/CreateCollectionModal/CreateCollectionModal";
+import DeleteCollectionModal from "../../components/DeleteCollectionModal/DeleteCollectionModal";
+import CreateListModal from "../../components/CreateListModal/CreateListModal";
+import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
 
 export default function Todos() {
      const { user, error, isLoading } = useUser();
-     const { isAuthenticated } = useAuth0();
      const theme = useSelector((state: RootState) => state.theme);
      const dispatch = useDispatch();
 
@@ -38,9 +41,13 @@ export default function Todos() {
                )}
                {user && (
                     <div className={theme === "DARK" ? "dark" : ""}>
-                         <div className="container lg mx-auto h-screen dark:bg-slate-900 flex flex-col ">
+                         <div className="h-screen dark:bg-slate-900 flex flex-col relative">
+                              <CreateCollectionModal />
+                              <DeleteCollectionModal />
+                              <CreateListModal />
+                              <DeleteListModal />
                               <TopMenu />
-                              <div className="flex flex-row flex-1">
+                              <div className="container md mx-auto flex flex-row flex-1 overflow-hidden">
                                    <Sidebar />
                                    <div className="h-full flex-1 dark:bg-slate-900">
                                         <Editor />

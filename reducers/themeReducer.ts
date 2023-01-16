@@ -1,8 +1,6 @@
 import { Action } from "@reduxjs/toolkit";
 
-// const initialTheme = localStorage.getItem("theme") || "LIGHT";
-
-export default (state = "DARK", action: Action) => {
+export default (state: string = "DARK", action: Action) => {
      switch (action.type) {
           case "theme/switch":
                if (state === "LIGHT") return "DARK";

@@ -11,27 +11,65 @@ export const updateCollection = (data: any) => {
           payload: data,
      };
 };
-export const setSelectedCollectionId = (data: any) => {
-     return {
-          type: "collections/selectCollection",
-          payload: data,
-     };
-};
-export const unselectCollection = () => {
-     return {
-          type: "collections/unselectCollection",
-     };
-};
 
-export const setSelectedListId = (data: any) => {
+export const addCollection = (data: any) => {
      return {
-          type: "collections/selectList",
+          type: "collections/post",
           payload: data,
      };
 };
 
-export const unselectList = () => {
+export const addList = (data: any) => {
      return {
-          type: "collections/unselectList",
+          type: "collections/list/add",
+          payload: data,
+     };
+};
+
+export const updateList = (data: any) => {
+     return {
+          type: "collections/list/update",
+          payload: data,
+     };
+};
+
+export const removeList = (data: any) => {
+     return {
+          type: "collections/list/remove",
+          payload: data,
+     };
+};
+
+export const removeCollection = (data: any) => {
+     return {
+          type: "collections/delete",
+          payload: data,
+     };
+};
+
+export const addTask = (data: any) => {
+     return {
+          type: "collections/task/add",
+          payload: data,
+     };
+};
+export const removeTask = (data: any) => {
+     return {
+          type: "collections/task/remove",
+          payload: data,
+     };
+};
+
+export const swapTasksPosition = (data: any) => {
+     return {
+          type: "collections/task/swap",
+          payload: data,
+     };
+};
+
+export const updateTask = (data: any) => {
+     return {
+          type: "collections/task/update",
+          payload: data,
      };
 };

@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../reducers";
 import _ from "lodash";
 import ListsMenu from "./ListsMenu/ListsMenu";
-import Todos from "./Todos/Todos";
-import { getSelectedCollection, getSelectedList } from "../../selectors/selectors";
+import { getSelectedCollection } from "../../selectors/selectors";
+import Tasks from "./Tasks/Tasks";
+import CreateCollectionModal from "../CreateCollectionModal/CreateCollectionModal";
 
 export default function Editor() {
-     const list = useSelector(getSelectedList);
      const collection = useSelector(getSelectedCollection);
-
-     if (collection && list)
-          return (
-               <div className="w-full h-full dark:text-white flex flex-row">
-                    <Todos />
-               </div>
-          );
 
      if (collection)
           return (
-               <div className="w-full h-full dark:text-white flex flex-row">
+               <div className="w-full h-full relative overflow-hidden">
                     <ListsMenu />
+                    <Tasks />
                </div>
           );
 

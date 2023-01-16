@@ -1,4 +1,4 @@
-import dbConnect from "../../..//lib/mongodb";
+import dbConnect from "../../../lib/mongodb";
 import Collection from "../../../models/collection";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -24,12 +24,22 @@ export default async function handler(req: any, res: NextApiResponse) {
                     res.status(400).json({ success: false });
                }
                break;
-          case "PUT":
+          case "PATCH":
                try {
                     const { name, color, id } = req.body;
                     const query = { _id: id };
                     const new_data = { name: name, color: color };
                     const collection = await Collection.findOneAndUpdate(query, new_data, { new: true });
+                    res.status(201).json({ success: true, data: collection });
+               } catch (error) {
+                    res.status(400).json({ success: false });
+               }
+               break;
+          case "DELETE":
+               try {
+                    const { id } = req.body;
+                    const query = { _id: id };
+                    const collection = await Collection.findByIdAndDelete(query);
                     res.status(201).json({ success: true, data: collection });
                } catch (error) {
                     res.status(400).json({ success: false });

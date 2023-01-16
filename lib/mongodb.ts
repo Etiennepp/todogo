@@ -1,9 +1,6 @@
 // /lib/dbConnect.js
 import mongoose, { Mongoose } from "mongoose";
 
-declare global {
-     var mongoose: Mongoose;
-}
 /** 
 Source : 
 https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/utils/dbConnect.js 

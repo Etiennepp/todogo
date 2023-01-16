@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { BiEditAlt, BiCheck } from "react-icons/bi";
-import { API_URL } from "../../config";
+import { API_URL } from "../../../config";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedCollectionId, updateCollection } from "../../actions/collectionsActions";
-import { RootState } from "../../reducers";
+import { updateCollection } from "../../../actions/collectionsActions";
+import { RootState } from "../../../reducers";
+import { getSelectedCollection } from "../../../selectors/selectors";
+import { setSelectedCollectionId } from "../../../reducers/UIStateSlice";
 
 interface CollectionProps {
      name: string;
@@ -15,14 +17,14 @@ interface CollectionProps {
 export default function CollectionListItem({ name, color, id }: CollectionProps) {
      const [isEditing, setIsEditing] = useState(false);
      const dispatch = useDispatch();
-     const selectedCollection = useSelector((state: RootState) => state.collections.selectedCollectionId);
+     const selectedCollection = useSelector(getSelectedCollection);
 
      const handleSubmit = async (e: React.SyntheticEvent) => {
           e.preventDefault();
           const target = e.target as typeof e.target & {
                name: { value: string };
           };
-          const { data } = await axios.put(API_URL + "collections", {
+          const { data } = await axios.patch(API_URL + "collections", {
                id: id,
                name: target.name.value,
                color: color,
@@ -44,7 +46,7 @@ export default function CollectionListItem({ name, color, id }: CollectionProps)
                px-8 py-4 cursor-pointer bg-transparent 
                transition-all duration-200 
                hover:bg-slate-300 dark:hover:bg-slate-800
-               ${selectedCollection === id ? "bg-slate-300 dark:bg-slate-800" : ""}`}
+               ${selectedCollection?._id === id ? "bg-slate-300 dark:bg-slate-800" : ""}`}
           >
                <div className="rounded w-8 h-8 shrink-0 " style={{ background: color }}></div>
 
@@ -84,7 +86,7 @@ export default function CollectionListItem({ name, color, id }: CollectionProps)
                     className={`absolute right-0
                 bg-slate-800 dark:bg-slate-300
                  w-2 h-full
-                 transition-all duration-200 ${selectedCollection === id ? "opacity-100" : "opacity-0"}
+                 transition-all duration-200 ${selectedCollection?._id === id ? "opacity-100" : "opacity-0"}
                  `}
                ></div>
           </div>

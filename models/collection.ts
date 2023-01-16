@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import Task from "./task";
 const CollectionSchema = new mongoose.Schema(
      {
           name: {
@@ -16,13 +16,15 @@ const CollectionSchema = new mongoose.Schema(
           },
           lists: [
                {
-                    name: String,
-                    todos: [
+                    type: new mongoose.Schema(
                          {
                               name: String,
-                              completed: Boolean,
+                              color: String,
+                              emoji: String,
+                              tasks: [Task.schema],
                          },
-                    ],
+                         { timestamps: true }
+                    ),
                },
           ],
      },
