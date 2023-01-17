@@ -18,4 +18,5 @@ export interface Collection {
      name: string;
      color: string;
      lists: [List] | [];
+     user_id: string;
 }

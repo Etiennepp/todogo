@@ -1,10 +1,10 @@
 import dbConnect from "../../../lib/mongodb";
 import { NextApiResponse } from "next";
 import Collection from "../../../models/collection";
-import mongoose from "mongoose";
-import { List, Task } from "../../../shared/interfaces/collection";
+import { Task } from "../../../shared/interfaces/collection";
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
-export default async function handler(req: any, res: NextApiResponse) {
+export default withApiAuthRequired(async function handler(req: any, res: NextApiResponse) {
      const { method } = req;
 
      await dbConnect();
@@ -64,4 +64,4 @@ export default async function handler(req: any, res: NextApiResponse) {
                res.status(400).json({ success: false });
                break;
      }
-}
+});

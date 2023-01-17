@@ -16,6 +16,7 @@ export default function TopMenu() {
      });
 
      const handleProfileClick = () => {
+          console.log(user);
           setIsProfileMenuOpen(!isProfileMenuOpen);
      };
 
