@@ -21,7 +21,7 @@ export default function ListsMenu() {
                anima animate-list_menu
            `}
           >
-               <div className="flex flex-row items-center justify-between px-20 h-20 shadow-sm shrink-0">
+               <div className="flex flex-row items-center justify-between px-6 md:px-20 h-20 shadow-sm shrink-0">
                     <div className="flex flex-row items-center gap-8">
                          <BiXCircle
                               className={`h-7 w-7
@@ -37,7 +37,7 @@ export default function ListsMenu() {
                          onClick={() => dispatch(openDeleteCollectionModal())}
                     >
                          <BiTrash className="w-5 h-5" />
-                         <span className="hidden sm:inline">Delete collection</span>
+                         <span>Delete collection</span>
                     </div>
                </div>
                <div className="overflow-y-auto flex justify-center lg:scrollbar lg:scrollbar-thumb-slate-700 lg:scrollbar-track-slate-200 lg:scrollbar-thumb-rounded-full lg:scrollbar-track-rounded-full">
