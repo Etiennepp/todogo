@@ -94,7 +94,7 @@ export default function TaskItem({
 
      return (
           <div
-               className="flex gap-3 text-lg justify-between bg-slate-50 dark:bg-slate-800 transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-600 shadow-md p-3 rounded-xl w-2/3"
+               className="flex gap-3 text-lg justify-between bg-slate-50 dark:bg-slate-800 transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-600 shadow-md p-3 w-full xl:w-2/3"
                draggable={true}
                id={id}
                onDragOver={(ev) => ev.preventDefault()}

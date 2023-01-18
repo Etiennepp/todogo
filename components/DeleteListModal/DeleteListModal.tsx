@@ -16,7 +16,6 @@ export default function DeleteListModal() {
      const dispatch = useDispatch();
 
      const handleClose = (e: React.SyntheticEvent) => {
-          if (e.currentTarget != e.target) return;
           dispatch(closeDeleteListModal());
      };
 
@@ -47,16 +46,35 @@ export default function DeleteListModal() {
                }`}
                onClick={handleClose}
           >
-               <div className="dark:bg-slate-700 bg-slate-100 w-1/3 px-10 py-10 shadow-xl rounded-lg dark:text-white">
-                    <div className="flex justify-between items-center mb-10">
+               <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={`dark:bg-slate-700 bg-slate-100 w-3/4 lg:w-1/3  shadow-xl rounded-lg dark:text-white animate-modal relative`}
+               >
+                    <div className="flex justify-between items-center mb-10 px-10 py-4  border-b border-b-slate-300">
                          <h1 className="f font-semibold">Delete list</h1>
-                         <BiX className="f w-7 h-7 btn" onClick={handleClose} />
+                         <div
+                              onClick={handleClose}
+                              className="flex justify-center items-center rounded-lg w-7 h-7 border-slate-400 border btn "
+                         >
+                              <BiX className="f w-full h-full" />
+                         </div>
                     </div>
-                    <div>
+                    <div className="px-10 flex flex-col mb-5 gap-10">
                          <span>Do you really want to delete this list ?</span>
-                         <button className="m-2 p-1 bg-slate-200 text-red-500" onClick={handleDelete}>
-                              Delete
-                         </button>
+                         <div className="flex flex-row justify-end gap-5">
+                              <input
+                                   type="button"
+                                   value="Cancel"
+                                   onClick={handleClose}
+                                   className="transition-all duration-200 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 dark:text-white font-semibold hover:text-white py-2 px-4 border border-blue-500 dark:border-white dark:hover:border-blue-500 hover:border-transparent rounded"
+                              ></input>
+                              <button
+                                   className="transition-all duration-200 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                                   onClick={handleDelete}
+                              >
+                                   Delete
+                              </button>
+                         </div>
                     </div>
                </div>
           </div>

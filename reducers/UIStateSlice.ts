@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface UIState {
      selectedCollectionId: string | null;
      selectedListId: string | null;
+     editCollectionId: string | null;
+     editListId: string | null;
      newCollectionModalOpen: boolean;
      deleteCollectionModalOpen: boolean;
      createListModalOpen: boolean;
@@ -13,6 +15,8 @@ export interface UIState {
 const initialState: UIState = {
      selectedCollectionId: null,
      selectedListId: null,
+     editCollectionId: null,
+     editListId: null,
      newCollectionModalOpen: false,
      deleteCollectionModalOpen: false,
      createListModalOpen: false,
@@ -30,11 +34,23 @@ const UIStateSlice = createSlice({
           unselectCollection: (state) => {
                return { ...state, selectedCollectionId: null };
           },
+          setEditCollectionId: (state, action) => {
+               return { ...state, editCollectionId: action.payload };
+          },
+          unsetEditCollectionId: (state) => {
+               return { ...state, editCollectionId: null };
+          },
           setSelectedListId: (state, action) => {
                return { ...state, selectedListId: action.payload };
           },
           unselectList: (state) => {
                return { ...state, selectedListId: null };
+          },
+          setEditListId: (state, action) => {
+               return { ...state, editListId: action.payload };
+          },
+          unsetEditListId: (state) => {
+               return { ...state, editListId: null };
           },
           openNewCollectionModal: (state) => {
                return { ...state, newCollectionModalOpen: true };
@@ -70,7 +86,11 @@ export const {
      setSelectedCollectionId,
      unselectCollection,
      setSelectedListId,
+     setEditCollectionId,
+     unsetEditCollectionId,
      unselectList,
+     unsetEditListId,
+     setEditListId,
      openNewCollectionModal,
      closeNewCollectionModal,
      openDeleteCollectionModal,

@@ -38,7 +38,7 @@ export default withApiAuthRequired(async function handler(req: any, res: NextApi
                break;
           case "PATCH":
                try {
-                    const { collection_id, list_id, swap, name } = req.body;
+                    const { collection_id, list_id, swap, name, color, emoji } = req.body;
                     const collection = await Collection.findById(collection_id);
                     if (typeof swap !== "undefined") {
                          const list = collection.lists.id(list_id);
@@ -53,6 +53,8 @@ export default withApiAuthRequired(async function handler(req: any, res: NextApi
                          collection.lists.id(list_id).tasks = new_tasks;
                     }
                     if (typeof name !== "undefined") collection.lists.id(list_id).name = name;
+                    if (typeof color !== "undefined") collection.lists.id(list_id).color = color;
+                    if (typeof emoji !== "undefined") collection.lists.id(list_id).emoji = emoji;
                     await collection.save();
                     res.status(201).json({ success: true, data: collection });
                } catch (error) {

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { openDeleteListModal, setSelectedListId } from "../../../reducers/UIStateSlice";
+import { openDeleteListModal, setEditListId, setSelectedListId } from "../../../reducers/UIStateSlice";
 import { getListById, getListCompletedTaskCount } from "../../../selectors/selectors";
 import TimeAgo from "react-timeago";
-import { BiCheck, BiDotsHorizontalRounded, BiTrash } from "react-icons/bi";
+import { BiCheck, BiDotsHorizontalRounded, BiEditAlt, BiTrash } from "react-icons/bi";
 import useOutsideClick from "../../../hooks/useOutsideClick";
 
 export default function ListItem({ id }: { id: string }) {
@@ -33,61 +33,16 @@ export default function ListItem({ id }: { id: string }) {
           dispatch(openDeleteListModal());
      };
 
-     // if (isEditing)
-     //      return (
-     //           <div
-     //                className={
-     //                     "cursor-pointer relative shadow-md p-4 bg-slate-400 text-white w-44 h-44 rounded-xl flex flex-col justify-between"
-     //                }
-     //           >
-     //                <form onSubmit={(e) => handleEditSubmit(e)} className="flex h-full flex-col justify-between">
-     //                     <div className="flex flex-1 flex-row justify-between overflow-hidden">
-     //                          <div className="flex flex-col gap-1 overflow-hidden">
-     //                               <input
-     //                                    type="button"
-     //                                    className="cursor-pointer"
-     //                                    value={list?.emoji ? list?.emoji : "addemoji"}
-     //                               ></input>
-     //                               <input
-     //                                    className="text-black bg-transparent"
-     //                                    type="text"
-     //                                    defaultValue={list?.name}
-     //                                    name="name"
-     //                               ></input>
-     //                          </div>
-     //                          <Picker
-     //                               data={data}
-     //                               onEmojiSelect={(e: any) => {
-     //                                    console.log(e.native);
-     //                                    setEmoji(e.native);
-     //                                    setIsEmojiSelectorOpen(false);
-     //                               }}
-     //                               className="z-50"
-     //                          />
-     //                          <button type="submit" className="relative h-fit overflow-visible">
-     //                               <BiCheck className="w-6 h-6 btn shrink-0" />
-     //                          </button>
-     //                     </div>
-     //                     <div className="flex justify-between flex-1 flex-wrap">
-     //                          {COLLECTION_COLORS.map((color) => (
-     //                               <ColorPicker
-     //                                    color={color}
-     //                                    selected={color === selectedColor}
-     //                                    key={color}
-     //                                    onChange={(e: any) => {
-     //                                         setSelectedColor(e.target.value);
-     //                                    }}
-     //                               />
-     //                          ))}
-     //                     </div>
-     //                </form>
-     //           </div>
-     //      );
+     const handleEdit = (e: React.SyntheticEvent) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dispatch(setEditListId(list?._id));
+     };
 
      return (
           <div
                className={
-                    "cursor-pointer relative shadow-md p-4 text-white w-44 h-44 rounded-xl flex flex-col transition-all duration-200 justify-between hover:scale-105"
+                    "cursor-pointer relative shadow-md p-4 text-white gap-4 md:gap-0 w-64 md:w-44 md:h-44 rounded-xl flex flex-col transition-all duration-200 justify-between hover:scale-105"
                }
                style={{ backgroundColor: list?.color }}
                onClick={handleClick}
@@ -96,17 +51,17 @@ export default function ListItem({ id }: { id: string }) {
                {isMenuOpen && (
                     <div
                          ref={menu}
-                         className="absolute overflow-hidden top-8 right-2 rounded-lg z-40 bg-slate-100 text-black flex flex-col"
+                         className="absolute overflow-hidden top-8 right-2 rounded-lg z-40 bg-slate-100 text-black dark:bg-slate-700 dark:text-white flex flex-col"
                     >
-                         {/* <button
+                         <button
                               onClick={(e) => handleEdit(e)}
-                              className="flex transition-all duration-200 items-center pl-5 p-3 pr-10 gap-2 hover:bg-slate-200"
+                              className="flex transition-all duration-200 items-center pl-5 p-3 pr-10 gap-2 hover:bg-slate-200 dark:hover:bg-slate-800"
                          >
                               <BiEditAlt /> Edit
-                         </button> */}
+                         </button>
                          <button
                               onClick={handleDelete}
-                              className="flex transition-all duration-200 items-center pl-5 p-3 pr-10 gap-2 hover:bg-slate-200"
+                              className="flex transition-all duration-200 items-center pl-5 p-3 pr-10 gap-2 hover:bg-slate-200 dark:hover:bg-slate-800"
                          >
                               <BiTrash /> Delete
                          </button>
@@ -130,7 +85,9 @@ export default function ListItem({ id }: { id: string }) {
                </div>
                <div className="flex flex-row justify-between items-center">
                     <span className={`${!completedTasksCount && "opacity-60"}`}>
-                         {completedTasksCount ? completedTasksCount + " of " + list?.tasks.length : "Empty"}
+                         {list?.tasks && list?.tasks?.length > 0
+                              ? completedTasksCount + " of " + list?.tasks.length
+                              : "Empty"}
                     </span>
                     <div className="relative">
                          <svg className="w-8 h-8">

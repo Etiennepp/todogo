@@ -14,6 +14,8 @@ import CreateCollectionModal from "../../components/CreateCollectionModal/Create
 import DeleteCollectionModal from "../../components/DeleteCollectionModal/DeleteCollectionModal";
 import CreateListModal from "../../components/CreateListModal/CreateListModal";
 import DeleteListModal from "../../components/DeleteListModal/DeleteListModal";
+import EditListModal from "../../components/EditListModal/EditListModal";
+import EditCollectionModal from "../../components/EditCollectionModal/EditCollectionModal";
 
 export default function Todos() {
      const { user, error, isLoading } = useUser();
@@ -43,9 +45,11 @@ export default function Todos() {
                     <div className={theme === "DARK" ? "dark" : ""}>
                          <div className="h-screen dark:bg-slate-900 flex flex-col relative">
                               <CreateCollectionModal />
+                              <EditCollectionModal />
                               <DeleteCollectionModal />
                               <CreateListModal />
                               <DeleteListModal />
+                              <EditListModal />
                               <TopMenu />
                               <div className="container md mx-auto flex flex-row flex-1 overflow-hidden">
                                    <Sidebar />

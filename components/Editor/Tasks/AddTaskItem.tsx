@@ -46,7 +46,7 @@ export default function AddTaskItem() {
                className={`flex gap-3 text-lg justify-between 
                bg-slate-50 dark:bg-slate-800 
                transition-all duration-300  shadow-md 
-               p-3 rounded-xl w-2/3
+               p-3 rounded-xl w-full xl:w-2/3
                ${!isOpen && "hidden"}
                `}
           >

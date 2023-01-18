@@ -4,17 +4,33 @@ import { RootState } from "../reducers";
 const collections = (state: RootState) => state.collections.data;
 const selectedCollectionId = (state: RootState) => state.uistate.selectedCollectionId;
 const selectedListId = (state: RootState) => state.uistate.selectedListId;
+const editedListId = (state: RootState) => state.uistate.editListId;
+const editedCollectionId = (state: RootState) => state.uistate.editCollectionId;
 
 export const getSelectedCollection = createSelector(
      [collections, selectedCollectionId],
      (collections, selectedCollectionId) => collections.find((collection) => collection._id === selectedCollectionId)
 );
 
+export const getCollectionById = (collection_id: string) =>
+     createSelector([collections], (collections) =>
+          collections?.find((collection) => collection._id === collection_id)
+     );
+
 export const getListById = (list_id: string) =>
      createSelector([getSelectedCollection], (collection) => collection?.lists.find((list) => list._id === list_id));
 
 export const getSelectedList = createSelector([getSelectedCollection, selectedListId], (collection, list_id) =>
      collection?.lists.find((list) => list._id === list_id)
+);
+
+export const getEditedCollection = createSelector(
+     [collections, editedCollectionId],
+     (collections, editedCollectionId) => collections?.find((collection) => collection._id === editedCollectionId)
+);
+
+export const getEditedList = createSelector([getSelectedCollection, editedListId], (collection, editedListId) =>
+     collection?.lists.find((list) => list._id === editedListId)
 );
 
 export const getTaskById = (task_id: string) =>

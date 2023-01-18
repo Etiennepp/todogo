@@ -15,7 +15,12 @@ export default function ListsMenu() {
      };
 
      return (
-          <div className="h-full w-full dark:text-white flex flex-col">
+          <div
+               className={`absolute top-0 left-0 h-full w-full 
+               dark:text-white flex flex-col
+               anima animate-list_menu
+           `}
+          >
                <div className="flex flex-row items-center justify-between px-20 h-20 shadow-sm shrink-0">
                     <div className="flex flex-row items-center gap-8">
                          <BiXCircle
@@ -32,11 +37,11 @@ export default function ListsMenu() {
                          onClick={() => dispatch(openDeleteCollectionModal())}
                     >
                          <BiTrash className="w-5 h-5" />
-                         <span>Delete collection</span>
+                         <span className="hidden sm:inline">Delete collection</span>
                     </div>
                </div>
-               <div className="overflow-y-auto flex justify-center">
-                    <div className="gap-5 w-fit dark:text-white grid grid-cols-3 pt-6 p-5 pb-50 h-fit">
+               <div className="overflow-y-auto flex justify-center lg:scrollbar lg:scrollbar-thumb-slate-700 lg:scrollbar-track-slate-200 lg:scrollbar-thumb-rounded-full lg:scrollbar-track-rounded-full">
+                    <div className="gap-5 w-fit dark:text-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-6 p-5 pb-50 h-fit">
                          {collection && collection?.lists?.length > 0 ? (
                               <>
                                    {collection?.lists.map((list: any) => {

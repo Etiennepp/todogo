@@ -24,7 +24,7 @@ export default function TopMenu() {
           <div className="bg-gray-200 dark:bg-slate-700 h-16 flex flex-row justify-between items-center shadow-md relative z-20">
                <div className="container mx-auto lg bg-gray-200 dark:bg-slate-700 h-16 flex flex-row justify-between items-center px-8 relative z-20">
                     <img src="/logo.svg" className="h-7" />
-                    <div className="relative w-1/3">
+                    <div className="relative w-1/3 hidden md:block">
                          <IoSearch className="w-5 h-5 cursor-pointer opacity-50 dark:text-white absolute left-4 top-2/4 -translate-y-2/4" />
                          <input
                               type="text"
@@ -37,7 +37,7 @@ export default function TopMenu() {
                          `}
                          />
                     </div>
-                    <div className="flex-row gap-6 items-center hidden md:visible md:flex relative">
+                    <div className="flex-row gap-6 items-center flex relative">
                          <ThemeSwitch />
                          <img
                               className="w-10 h-10 rounded-full bg-amber-500 cursor-pointer"
