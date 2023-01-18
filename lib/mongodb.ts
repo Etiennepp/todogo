@@ -18,6 +18,10 @@ if (!MONGODB_URI) {
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
+
+declare global {
+     var mongoose: any; // This must be a `var` and not a `let / const`
+}
 let cached: any = global.mongoose;
 
 if (!cached) {
