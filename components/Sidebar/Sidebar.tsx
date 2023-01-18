@@ -12,7 +12,7 @@ export default function Sidebar() {
      return (
           <>
                <aside
-                    className={`w-64 hidden lg:flex bg-gray-200 dark:bg-slate-700 h-full  flex-col justify-between relative z-10 pt-5 shadow-lg ${
+                    className={`w-64 hidden lg:flex bg-gray-200 dark:bg-slate-700 flex-col justify-between relative z-10 pt-5 shadow-lg ${
                          !open && "hidden"
                     }`}
                >

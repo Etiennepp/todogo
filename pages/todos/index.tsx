@@ -51,9 +51,9 @@ export default function Todos() {
                               <DeleteListModal />
                               <EditListModal />
                               <TopMenu />
-                              <div className="container md mx-auto flex flex-row flex-1 overflow-hidden">
+                              <div className=" md mx-auto flex flex-row flex-1 overflow-hidden relative items-strech">
                                    <Sidebar />
-                                   <div className="h-full flex-1 dark:bg-slate-900">
+                                   <div className="flex-1 dark:bg-slate-900">
                                         <Editor />
                                    </div>
                               </div>
