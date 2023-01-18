@@ -43,7 +43,7 @@ export default function Todos() {
                )}
                {user && (
                     <div className={theme === "DARK" ? "dark" : ""}>
-                         <div className="h-screen dark:bg-slate-900 flex flex-col relative">
+                         <div className="dark:bg-slate-900 flex flex-col relative min-h-screen">
                               <CreateCollectionModal />
                               <EditCollectionModal />
                               <DeleteCollectionModal />
