@@ -44,7 +44,7 @@ export default function CreateListModal() {
                name: { value: string };
           };
 
-          if (!target.name.value.replace(/\s/g, "") || !selectedColor || !emoji) {
+          if (!target.name.value.replace(/\s/g, "") || !selectedColor) {
                setIsLoading(false);
                return;
           }

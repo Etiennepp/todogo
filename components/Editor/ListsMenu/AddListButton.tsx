@@ -13,7 +13,7 @@ export default function AddListButton() {
      return (
           <div
                className={
-                    "cursor-pointer flex flex-col items-center justify-center border-dashed border-2 pb-10 border-slate-400 w-64 h-64 md:w-44 md:h-44  rounded-xl btn"
+                    "cursor-pointer flex flex-col items-center justify-center border-dashed border-2 mb-10 border-slate-400 w-64 h-64 md:w-44 md:h-44  rounded-xl btn"
                }
                onClick={handleClick}
           >

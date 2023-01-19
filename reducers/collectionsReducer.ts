@@ -167,6 +167,51 @@ export default (state = initialState, action: any) => {
                               : collection;
                     }),
                };
+          case "collections/task/move":
+               let tasks_list = state.data
+                    .find((collection) => collection._id === action.payload.collection_id)
+                    ?.lists.find((list) => list._id === action.payload.list_id)?.tasks;
+               if (!tasks_list) return { ...state };
+               let new_tasks_list = [...tasks_list];
+               new_tasks_list.splice(action.payload.old_index, 1);
+               new_tasks_list.splice(action.payload.new_index, 0, { ...tasks_list[action.payload.old_index] });
+
+               return {
+                    ...state,
+                    data: state.data.map((collection: Collection) => {
+                         return collection._id === action.payload.collection_id
+                              ? {
+                                     ...collection,
+                                     lists: collection.lists.map((list: List) => {
+                                          return list._id === action.payload.list_id
+                                               ? {
+                                                      ...list,
+                                                      tasks: [...new_tasks_list],
+                                                 }
+                                               : list;
+                                     }),
+                                }
+                              : collection;
+                    }),
+               };
+          case "collections/list/move":
+               let lists = state.data.find((collection) => collection._id === action.payload.collection_id)?.lists;
+               if (!lists) return { ...state };
+               let new_lists = [...lists];
+               new_lists.splice(action.payload.old_index, 1);
+               new_lists.splice(action.payload.new_index, 0, { ...lists[action.payload.old_index] });
+
+               return {
+                    ...state,
+                    data: state.data.map((collection: Collection) => {
+                         return collection._id === action.payload.collection_id
+                              ? {
+                                     ...collection,
+                                     lists: [...new_lists],
+                                }
+                              : collection;
+                    }),
+               };
           default:
                return state;
      }

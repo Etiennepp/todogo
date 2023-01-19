@@ -38,19 +38,21 @@ export default withApiAuthRequired(async function handler(req: any, res: NextApi
                break;
           case "PATCH":
                try {
-                    const { collection_id, list_id, swap, name, color, emoji } = req.body;
+                    const { collection_id, list_id, move_list, move, name, color, emoji } = req.body;
                     const collection = await Collection.findById(collection_id);
-                    if (typeof swap !== "undefined") {
-                         const list = collection.lists.id(list_id);
-                         const new_tasks = list.tasks.map((element: Task, index: number) => {
-                              console.log(element);
-                              return index === swap.firstIndex
-                                   ? list.tasks[swap.secondIndex]
-                                   : index === swap.secondIndex
-                                   ? list.tasks[swap.firstIndex]
-                                   : element;
-                         });
-                         collection.lists.id(list_id).tasks = new_tasks;
+                    if (typeof move_list !== "undefined") {
+                         const lists = collection.lists;
+                         let new_lists = [...lists];
+                         new_lists.splice(move_list.source, 1);
+                         new_lists.splice(move_list.destination, 0, { ...lists[move_list.source] });
+                         collection.lists = new_lists;
+                    }
+                    if (typeof move !== "undefined") {
+                         const tasks = collection.lists.id(list_id).tasks;
+                         let new_tasks_list = [...tasks];
+                         new_tasks_list.splice(move.source, 1);
+                         new_tasks_list.splice(move.destination, 0, { ...tasks[move.source] });
+                         collection.lists.id(list_id).tasks = new_tasks_list;
                     }
                     if (typeof name !== "undefined") collection.lists.id(list_id).name = name;
                     if (typeof color !== "undefined") collection.lists.id(list_id).color = color;

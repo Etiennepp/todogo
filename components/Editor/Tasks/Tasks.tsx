@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListCompletionRate, getSelectedCollection, getSelectedList } from "../../../selectors/selectors";
 import TaskItem from "./TaskItem";
 import { openDeleteListModal, setEditListId, setIsAddingTask, unselectList } from "../../../reducers/UIStateSlice";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
 
 import AddTaskItem from "./AddTaskItem";
 import Confetti from "react-confetti";
-import { swapTasksPosition, updateList } from "../../../actions/collectionsActions";
+import { updateTaskPosition } from "../../../actions/collectionsActions";
 import axios from "axios";
 import { API_URL } from "../../../config";
 import useOutsideClick from "../../../hooks/useOutsideClick";
@@ -18,18 +20,12 @@ export default function Tasks() {
      const list = useSelector(getSelectedList);
      const collection = useSelector(getSelectedCollection);
      const completionRate = useSelector(getListCompletionRate);
-     const [dragId, setDragId] = useState();
      const [showOnlyIncomplete, setShowOnlyIncomplete] = useState(false);
      const [showConfetti, setShowConfetti] = useState(false);
      const [isMenuOpen, setIsMenuOpen] = useState(false);
      const menu = useRef(null);
 
-     const handleDrag = (ev: any) => {
-          setDragId(ev.currentTarget.id);
-          console.log(list?.emoji);
-     };
-
-     useOutsideClick(menu, (el: Node) => {
+     useOutsideClick(menu, () => {
           setIsMenuOpen(false);
      });
 
@@ -49,25 +45,22 @@ export default function Tasks() {
           if (completionRate === 1) setShowConfetti(true);
      }, [list]);
 
-     const handleDrop = async (ev: any) => {
-          if (!list?.tasks) return;
-
-          const dragTaskIndex = list?.tasks.findIndex((task) => task._id === dragId);
-          const dropTaskIndex = list?.tasks.findIndex((task) => task._id === ev.currentTarget.id);
-
+     const handleDragEnd = (result: DropResult) => {
+          const { destination, source } = result;
+          if (!destination) return;
+          if (destination.droppableId === source.droppableId && destination.index === source.index) return;
           dispatch(
-               swapTasksPosition({
+               updateTaskPosition({
                     collection_id: collection?._id,
-                    list_id: list._id,
-                    firstIndex: dragTaskIndex,
-                    secondIndex: dropTaskIndex,
+                    list_id: list?._id,
+                    old_index: source.index,
+                    new_index: destination.index,
                })
           );
-
           axios.patch(API_URL + "collections/lists", {
                collection_id: collection?._id,
-               list_id: list._id,
-               swap: { firstIndex: dragTaskIndex, secondIndex: dropTaskIndex },
+               list_id: list?._id,
+               move: { source: source.index, destination: destination.index },
           });
      };
 
@@ -94,7 +87,6 @@ export default function Tasks() {
                <div className="absolute w-full h-full top-0 left-0 pointer-events-none">
                     {showConfetti && <Confetti gravity={0.2} recycle={false} />}
                </div>
-
                <div className="flex flex-col gap-5 md:gap-0 md:flex-row md:items-center md:justify-between pt-5 md:pt-10 px-6 md:px-20">
                     <div className="flex flex-row items-center gap-8">
                          <BiLeftArrowCircle
@@ -153,7 +145,6 @@ export default function Tasks() {
                          </div>
                     </div>
                </div>
-
                <div className="flex flex-row gap-5 items-center mt-5 px-8 md:px-0 md:pl-20">
                     <div className="opacity-50 w-5 flex justify-center items-center font-semibold text-sm">
                          <span>{completionRate * 100}%</span>
@@ -167,35 +158,43 @@ export default function Tasks() {
                          ></div>
                     </div>
                </div>
+               <DragDropContext onDragEnd={handleDragEnd}>
+                    <Droppable droppableId="tasksContainer">
+                         {(provided) => (
+                              <div
+                                   {...provided.droppableProps}
+                                   ref={provided.innerRef}
+                                   className="mt-16 px-5 lg:px-20 lg:ml-10 dark:text-white overflow-y-auto overflow-x-hidden xl:scrollbar xl:scrollbar-thumb-slate-700 xl:scrollbar-track-slate-200 xl:scrollbar-thumb-rounded-full lg:scrollbar-track-rounded-full"
+                              >
+                                   {list?.tasks.map((task: Task, index: number) => {
+                                        if (showOnlyIncomplete && task.completed) return;
+                                        return <TaskItem key={task._id} id={task._id} index={index} />;
+                                   })}
+                                   <AddTaskItem />
+                                   {provided.placeholder}
 
-               <div className="mt-16 px-5 lg:px-20 lg:ml-10 dark:text-white flex flex-col gap-5 overflow-y-auto overflow-x-hidden xl:scrollbar xl:scrollbar-thumb-slate-700 xl:scrollbar-track-slate-200 xl:scrollbar-thumb-rounded-full lg:scrollbar-track-rounded-full">
-                    {list?.tasks.map((task: Task) => {
-                         if (showOnlyIncomplete && task.completed) return;
-                         return (
-                              <TaskItem key={task._id} id={task._id} handleDrag={handleDrag} handleDrop={handleDrop} />
-                         );
-                    })}
-                    <AddTaskItem />
-
-                    <div
-                         className={`flex gap-3 text-lg justify-between 
-                         
-                         transition-all duration-300 
-                         hover:bg-slate-100 dark:hover:bg-slate-700 shadow-md 
-                         p-3 rounded-xl w-full xl:w-2/3 mb-5
+                                   <div
+                                        className={`flex gap-3 text-lg justify-between 
+                              
+                              transition-all duration-300 
+                              hover:bg-slate-100 dark:hover:bg-slate-700 shadow-md 
+                              p-3 rounded-xl w-full xl:w-2/3 mb-5
                          border-2 border-slate-400
                          btn
                          `}
-                         onClick={() => dispatch(setIsAddingTask(true))}
-                    >
-                         <div className="flex gap-3 items-center">
-                              <div className="w-7 h-7 flex justify-center items-center">
-                                   <BiPlus className="w-6 h-6" />
+                                        onClick={() => dispatch(setIsAddingTask(true))}
+                                   >
+                                        <div className="flex gap-3 items-center">
+                                             <div className="w-7 h-7 flex justify-center items-center">
+                                                  <BiPlus className="w-6 h-6" />
+                                             </div>
+                                             <span>New task</span>
+                                        </div>
+                                   </div>
                               </div>
-                              <span>New task</span>
-                         </div>
-                    </div>
-               </div>
+                         )}
+                    </Droppable>
+               </DragDropContext>
           </div>
      );
 }

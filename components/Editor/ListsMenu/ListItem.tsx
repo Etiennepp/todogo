@@ -42,7 +42,7 @@ export default function ListItem({ id }: { id: string }) {
      return (
           <div
                className={
-                    "cursor-pointer relative shadow-md p-4 text-white gap-4 md:gap-0 w-64 md:w-44 md:h-44 rounded-xl flex flex-col transition-all duration-200 justify-between hover:scale-105"
+                    "cursor-pointer !top-auto !left-auto relative shadow-md p-4 text-white gap-4 md:gap-0 w-64 md:w-44 md:h-44 rounded-xl flex flex-col transition-all duration-200 justify-between hover:scale-105"
                }
                style={{ backgroundColor: list?.color }}
                onClick={handleClick}

@@ -60,6 +60,19 @@ export const removeTask = (data: any) => {
      };
 };
 
+export const updateTaskPosition = (data: any) => {
+     return {
+          type: "collections/task/move",
+          payload: data,
+     };
+};
+
+export const updateListPosition = (data: any) => {
+     return {
+          type: "collections/list/move",
+          payload: data,
+     };
+};
 export const swapTasksPosition = (data: any) => {
      return {
           type: "collections/task/swap",
