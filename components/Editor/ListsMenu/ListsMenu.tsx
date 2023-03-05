@@ -2,10 +2,19 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSelectedCollection } from "../../../selectors/selectors";
 import { BiXCircle, BiTrash } from "react-icons/bi";
-import { openCreateListModal, openDeleteCollectionModal, unselectCollection } from "../../../reducers/UIStateSlice";
+import {
+     openCreateListModal,
+     openDeleteCollectionModal,
+     unselectCollection,
+} from "../../../reducers/UIStateSlice";
 import ListItem from "./ListItem";
 import AddListButton from "./AddListButton";
-import { GridContextProvider, GridDropZone, GridItem, swap } from "react-grid-dnd";
+import {
+     GridContextProvider,
+     GridDropZone,
+     GridItem,
+     swap,
+} from "react-grid-dnd";
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
 import { updateListPosition } from "../../../actions/collectionsActions";
 import axios from "axios";
@@ -40,7 +49,10 @@ export default function ListsMenu() {
                );
                axios.patch(API_URL + "collections/lists", {
                     collection_id: collection?._id,
-                    move_list: { source: sourceIndex, destination: targetIndex },
+                    move_list: {
+                         source: sourceIndex,
+                         destination: targetIndex,
+                    },
                });
           }
      };
@@ -63,7 +75,9 @@ export default function ListsMenu() {
                                    opacity-50 dark:text-white hover:opacity-100`}
                               onClick={handleUnselectCollection}
                          />
-                         <h1 className="font-bold text-2xl dark:text-white">{collection?.name}</h1>
+                         <h1 className="font-bold text-2xl dark:text-white">
+                              {collection?.name}
+                         </h1>
                     </div>
                     <div
                          className="flex flex-row items-center gap-2 btn font-medium !text-red-600"
@@ -94,14 +108,26 @@ export default function ListsMenu() {
                          <GridContextProvider onChange={handleReorder}>
                               <GridDropZone
                                    id="items"
-                                   boxesPerRow={scrwidth > 768 ? 3 : scrwidth > 475 ? 2 : 1}
+                                   boxesPerRow={
+                                        scrwidth > 768
+                                             ? 3
+                                             : scrwidth > 475
+                                             ? 2
+                                             : 1
+                                   }
                                    rowHeight={190}
                                    style={{
                                         height:
                                              scrwidth > 768
-                                                  ? `calc(11rem + 20px) * ${Math.ceil(collection.lists.length / 3)}`
+                                                  ? `calc(11rem + 20px) * ${Math.ceil(
+                                                         collection.lists
+                                                              .length / 3
+                                                    )}`
                                                   : scrwidth > 475
-                                                  ? `calc(11rem + 20px) * ${Math.ceil(collection.lists.length / 3)}`
+                                                  ? `calc(11rem + 20px) * ${Math.ceil(
+                                                         collection.lists
+                                                              .length / 3
+                                                    )}`
                                                   : `calc((16rem + 20px) * ${collection.lists.length})`,
                                         width:
                                              scrwidth > 768
@@ -114,7 +140,10 @@ export default function ListsMenu() {
                               >
                                    {collection.lists.map((list) => (
                                         <GridItem key={list._id}>
-                                             <ListItem id={list._id} key={list._id} />
+                                             <ListItem
+                                                  id={list._id}
+                                                  key={list._id}
+                                             />
                                         </GridItem>
                                    ))}
                                    <GridItem key="addlist">
@@ -123,7 +152,7 @@ export default function ListsMenu() {
                               </GridDropZone>
                          </GridContextProvider>
                     ) : (
-                         <></>
+                         <AddListButton />
                     )}
                </div>
           </div>
